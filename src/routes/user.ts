@@ -1,22 +1,16 @@
 import type { Request, Response } from 'express';
+import { Schema, model } from 'mongoose';
 
-interface ContactBody {
+interface User {
     name: string;
     email: string;
-    message: string;
+    password: string;
 }
 
-export function postContact(req: Request, res: Response) {
-    const { name, email, message } = (req.body ?? {}) as Partial<ContactBody>;
+const schema = new Schema<User>({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
+});
 
-    if (!name || !email || !message) {
-        res.status(400).json({
-            error: 'Faltan campos',
-        });
-        return;
-    }
-
-    res.status(201).json({
-        received: true,
-    });
-}
+export const UserModel = model<User>('User', schema);

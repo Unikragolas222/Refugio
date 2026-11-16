@@ -1,5 +1,6 @@
 import express, { type Express, type Request, type Response } from 'express';
 import mongoose from 'mongoose';
+import {  } from './routes/user.ts';
 
 const app: Express = express();
 
@@ -11,5 +12,7 @@ async function connectDB() : Promise<void> {
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
+
+app.get("/users", );
 
 app.listen(3000);
