@@ -1,8 +1,34 @@
 import { Schema, model } from 'mongoose';
 
-const vetSchema = new Schema({
-  name: { type: String, required: true, trim: true },
-  email: { type: String, required: true, unique: true, lowercase: true },
-  specialty: { type: String, trim: true },
+// Definimos la interfaz unificando los datos del veterinario y credenciales de acceso
+export interface IVet {
+  name: string;
+  email: string;
+  password: string;
+  specialty?: string; // Opcional por si un veterinario es generalista
+}
+
+const vetSchema = new Schema<IVet>({
+  name: { 
+    type: String, 
+    required: true, 
+    trim: true 
+  },
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true, 
+    lowercase: true,
+    trim: true
+  },
+  password: { 
+    type: String, 
+    required: true 
+  },
+  specialty: { 
+    type: String, 
+    trim: true 
+  },
 });
-export const Vet = model('Vet', vetSchema);
+
+export const Vet = model<IVet>('Vet', vetSchema);
