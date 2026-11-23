@@ -4,6 +4,7 @@ import dogRoutes from './routes/dog.routes.ts';
 import breedRoutes from './routes/breed.routes.ts';
 import vetRoutes from './routes/vet.routes.ts';
 import session from 'express-session';
+import authRoutes from './routes/auth.routes.ts';
 
 const app: Express = express();
 declare module 'express-session' {
@@ -14,12 +15,14 @@ declare module 'express-session' {
 
 app.use(express.json());
 
+app.use(express.json());
 app.use(session({
   secret: process.env.SESSION_SECRET!,
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 },
 }));
+
+app.use('/auth', authRoutes);
 
 async function connectDB(): Promise<void> {
   await mongoose.connect(process.env.MONGO_URI!);

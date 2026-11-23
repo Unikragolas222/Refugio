@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from 'express';
 import { Dog } from '../models/Dog.ts';
+import { requireAuth } from '../middleware/requireAuth.ts';
 
 const router = Router();
 
@@ -8,7 +9,7 @@ router.get('/', async (req: Request, res: Response) => {
   res.json(dogs);
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', requireAuth, async (req: Request, res: Response) => {
   const dog = await Dog.create(req.body);
   res.status(201).json(dog);
 });
