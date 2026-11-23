@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const vets = await Vet.find().select('-password');
+    const vets = await Vet.find();
     res.json(vets);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener los veterinarios', error });

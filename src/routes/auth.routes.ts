@@ -13,11 +13,12 @@ router.post('/register', async (req: Request, res: Response) => {
 
 router.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const vet = await Vet.findOne({ email });
+  const vet = await Vet.findOne({ email }).select('+password');
   if (!vet) {
     res.sendStatus(401);
     return;
   }
+
   const valid = await bcrypt.compare(password, vet.password);
   if (!valid) {
     res.sendStatus(401);
