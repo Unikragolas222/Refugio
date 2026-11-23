@@ -23,7 +23,8 @@ const vetSchema = new Schema<IVet>({
   },
   password: { 
     type: String, 
-    required: true 
+    required: true,
+    select: false
   },
   specialty: { 
     type: String, 

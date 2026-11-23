@@ -3,10 +3,23 @@ import mongoose from 'mongoose';
 import dogRoutes from './routes/dog.routes.ts';
 import breedRoutes from './routes/breed.routes.ts';
 import vetRoutes from './routes/vet.routes.ts';
+import session from 'express-session';
 
 const app: Express = express();
+declare module 'express-session' {
+  interface SessionData {
+    vetId: string;
+  }
+}
 
 app.use(express.json());
+
+app.use(session({
+  secret: process.env.SESSION_SECRET!,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 },
+}));
 
 async function connectDB(): Promise<void> {
   await mongoose.connect(process.env.MONGO_URI!);
